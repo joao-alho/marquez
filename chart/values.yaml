@@ -28,7 +28,7 @@ marquez:
   db:
     host: localhost
     port: 5432
-    name: marquez
+    name: playground?currentSchema=marquez
     user: buendia
     password: macondo
   ## Indicates if Flyway database migration will execute upon deployment
@@ -99,7 +99,7 @@ web:
 postgresql:
   ## @param postgresql.enabled Deploy PostgreSQL container(s)
   ##
-  enabled: false
+  enabled: true
   ## Bitnami PostgreSQL image version
   ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
   ## @param image.registry PostgreSQL image registry
@@ -122,7 +122,7 @@ postgresql:
     password: macondo
     ## @param auth.database Name for a custom database to create
     ##
-    database: marquez
+    database: playground
     ## @param auth.existingSecret Name of existing secret to use for PostgreSQL credentials
     ## `auth.postgresPassword`, `auth.password`, and `auth.replicationPassword` will be ignored and picked up from this secret
     ## The secret must contain the keys `postgres-password` (which is the password for "postgres" admin user),
@@ -133,6 +133,9 @@ postgresql:
     ## The value is evaluated as a template.
     ##
     existingSecret: ""
+    primary:
+      persistence:
+        enabled: false
 
 ## Additional labels to all the deployed resources; note that
 ## the following standard labels will automatically be applied.

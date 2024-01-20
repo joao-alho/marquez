@@ -128,15 +128,15 @@ public class V56_1__FacetViews implements JavaMigration {
     return null;
   }
 
-  @Override
-  public boolean isUndo() {
-    return false;
-  }
-
-  @Override
-  public boolean isBaselineMigration() {
-    return false;
-  }
+  // @Override
+  // public boolean isUndo() {
+  //  return false;
+  // }
+  //
+  // @Override
+  // public boolean isBaselineMigration() {
+  //  return false;
+  // }
 
   @Override
   public boolean canExecuteInTransaction() {

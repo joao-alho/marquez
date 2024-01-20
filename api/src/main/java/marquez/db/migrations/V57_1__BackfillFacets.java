@@ -106,15 +106,15 @@ public class V57_1__BackfillFacets implements JavaMigration {
     return null;
   }
 
-  @Override
-  public boolean isUndo() {
-    return false;
-  }
-
-  @Override
-  public boolean isBaselineMigration() {
-    return false;
-  }
+  // @Override
+  // public boolean isUndo() {
+  //  return false;
+  // }
+  //
+  // @Override
+  // public boolean isBaselineMigration() {
+  //  return false;
+  // }
 
   @Override
   public boolean canExecuteInTransaction() {

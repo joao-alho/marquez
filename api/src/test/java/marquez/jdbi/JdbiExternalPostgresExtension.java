@@ -8,6 +8,7 @@ package marquez.jdbi;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.sql.DataSource;
@@ -95,9 +96,13 @@ public abstract class JdbiExternalPostgresExtension
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
     if (migration != null) {
+
       FluentConfiguration flywayConfig =
           Flyway.configure()
+              .configuration(
+                  Collections.singletonMap("flyway.postgresql.transactional.lock", "false"))
               .dataSource(getDataSource())
+              .cleanDisabled(false)
               .locations(migration.paths.toArray(new String[0]))
               .schemas(migration.schemas.toArray(new String[0]));
 
@@ -109,7 +114,7 @@ public abstract class JdbiExternalPostgresExtension
           context.getRequiredTestClass().getAnnotation(FlywaySkipRepeatable.class);
       if (ignore != null) {
         // This would be preferable, but we don't have access to Flyway Teams edition, so...
-        // flywayConfig.ignoreMigrationPatterns("repetable:*");
+        // flywayConfig.ignoreMigrationPatterns("repeatable:*");
         flywayConfig.repeatableSqlMigrationPrefix("Z__");
       }
 

@@ -48,18 +48,18 @@ public class V67_2_JobVersionsIOMappingBackfillJob implements JavaMigration {
     return null;
   }
 
-  @Override
-  public boolean isUndo() {
-    return false;
-  }
+  // @Override
+  // public boolean isUndo() {
+  //  return false;
+  // }
+  //
+  // @Override
+  // public boolean isBaselineMigration() {
+  //  return false;
+  // }
 
   @Override
   public boolean canExecuteInTransaction() {
-    return false;
-  }
-
-  @Override
-  public boolean isBaselineMigration() {
     return false;
   }
 }

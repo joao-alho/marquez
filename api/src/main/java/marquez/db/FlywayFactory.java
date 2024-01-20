@@ -8,6 +8,7 @@ package marquez.db;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -24,6 +25,7 @@ public final class FlywayFactory {
   private static final boolean DEFAULT_BASELINE_ON_MIGRATE = false;
   private static final boolean DEFAULT_GROUP = false;
   private static final boolean DEFAULT_MIXED = false;
+  private static final String DEFAULT_IGNORE_MIGRATIONS_PATTERNS = "repeatable:*";
   private static final boolean DEFAULT_IGNORE_MISSING_MIGRATIONS = false;
   private static final boolean DEFAULT_IGNORE_IGNORED_MIGRATIONS = false;
   private static final boolean DEFAULT_IGNORE_PENDING_MIGRATIONS = false;
@@ -45,6 +47,7 @@ public final class FlywayFactory {
   private static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
   private static final String DEFAULT_SQL_MIGRATION_PREFIX = "V";
   private static final String DEFAULT_REPEATABLE_SQL_MIGRATION_PREFIX = "R";
+  private static final boolean DEFAULT_POSTGRESQL_TRANSACTIONAL_LOCK = false;
 
   @Getter @Setter private int connectRetries = DEFAULT_CONNECT_RETRIES;
   @Setter @Nullable private String initSql;
@@ -52,6 +55,7 @@ public final class FlywayFactory {
   @Getter @Setter private boolean group = DEFAULT_GROUP;
   @Setter @Nullable private String installedBy;
   @Getter @Setter private boolean mixed = DEFAULT_MIXED;
+  @Getter @Setter private String ignoreMigrationPatterns = DEFAULT_IGNORE_MIGRATIONS_PATTERNS;
   @Getter @Setter private boolean ignoreMissingMigrations = DEFAULT_IGNORE_MISSING_MIGRATIONS;
   @Getter @Setter private boolean ignoreIgnoredMigrations = DEFAULT_IGNORE_IGNORED_MIGRATIONS;
   @Getter @Setter private boolean ignorePendingMigrations = DEFAULT_IGNORE_PENDING_MIGRATIONS;
@@ -74,10 +78,17 @@ public final class FlywayFactory {
   @Getter @Setter
   private String repeatableSqlMigrationPrefix = DEFAULT_REPEATABLE_SQL_MIGRATION_PREFIX;
 
+  @Getter @Setter
+  private boolean postgresqlTransactionalLock = DEFAULT_POSTGRESQL_TRANSACTIONAL_LOCK;
+
   @Getter @Setter private String schema;
 
   public Flyway build(@NonNull DataSource source) {
     return Flyway.configure()
+        .configuration(
+            Collections.singletonMap(
+                "flyway.postgresql.transactional.lock",
+                String.valueOf(postgresqlTransactionalLock)))
         .dataSource(source)
         .connectRetries(connectRetries)
         .initSql(initSql)
@@ -85,10 +96,7 @@ public final class FlywayFactory {
         .group(group)
         .installedBy(installedBy)
         .mixed(mixed)
-        .ignoreMissingMigrations(ignoreMissingMigrations)
-        .ignoreIgnoredMigrations(ignoreIgnoredMigrations)
-        .ignorePendingMigrations(ignorePendingMigrations)
-        .ignoreFutureMigrations(ignoreFutureMigrations)
+        .ignoreMigrationPatterns(ignoreMigrationPatterns)
         .validateMigrationNaming(validateMigrationNaming)
         .validateOnMigrate(validateOnMigrate)
         .cleanOnValidationError(cleanOnValidationError)
