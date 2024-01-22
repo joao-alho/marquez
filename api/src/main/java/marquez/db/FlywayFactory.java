@@ -25,7 +25,6 @@ public final class FlywayFactory {
   private static final boolean DEFAULT_BASELINE_ON_MIGRATE = false;
   private static final boolean DEFAULT_GROUP = false;
   private static final boolean DEFAULT_MIXED = false;
-  private static final String DEFAULT_IGNORE_MIGRATIONS_PATTERNS = "repeatable:*";
   private static final boolean DEFAULT_IGNORE_MISSING_MIGRATIONS = false;
   private static final boolean DEFAULT_IGNORE_IGNORED_MIGRATIONS = false;
   private static final boolean DEFAULT_IGNORE_PENDING_MIGRATIONS = false;
@@ -55,11 +54,6 @@ public final class FlywayFactory {
   @Getter @Setter private boolean group = DEFAULT_GROUP;
   @Setter @Nullable private String installedBy;
   @Getter @Setter private boolean mixed = DEFAULT_MIXED;
-  @Getter @Setter private String ignoreMigrationPatterns = DEFAULT_IGNORE_MIGRATIONS_PATTERNS;
-  @Getter @Setter private boolean ignoreMissingMigrations = DEFAULT_IGNORE_MISSING_MIGRATIONS;
-  @Getter @Setter private boolean ignoreIgnoredMigrations = DEFAULT_IGNORE_IGNORED_MIGRATIONS;
-  @Getter @Setter private boolean ignorePendingMigrations = DEFAULT_IGNORE_PENDING_MIGRATIONS;
-  @Getter @Setter private boolean ignoreFutureMigrations = DEFAULT_IGNORE_FUTURE_MIGRATIONS;
   @Getter @Setter private boolean validateMigrationNaming = DEFAULT_VALIDATE_MIGRATION_NAMING;
   @Getter @Setter private boolean validateOnMigrate = DEFAULT_VALIDATE_ON_MIGRATE;
   @Getter @Setter private boolean cleanOnValidationError = DEFAULT_CLEAN_ON_VALIDATION_ERROR;
@@ -96,7 +90,6 @@ public final class FlywayFactory {
         .group(group)
         .installedBy(installedBy)
         .mixed(mixed)
-        .ignoreMigrationPatterns(ignoreMigrationPatterns)
         .validateMigrationNaming(validateMigrationNaming)
         .validateOnMigrate(validateOnMigrate)
         .cleanOnValidationError(cleanOnValidationError)

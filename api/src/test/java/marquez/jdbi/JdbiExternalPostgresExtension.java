@@ -99,8 +99,7 @@ public abstract class JdbiExternalPostgresExtension
 
       FluentConfiguration flywayConfig =
           Flyway.configure()
-              .configuration(
-                  Collections.singletonMap("flyway.postgresql.transactional.lock", "false"))
+              .configuration(Collections.singletonMap("flyway.postgresql.transactional.lock", "false"))
               .dataSource(getDataSource())
               .cleanDisabled(false)
               .locations(migration.paths.toArray(new String[0]))

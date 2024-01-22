@@ -10,13 +10,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @org.junit.jupiter.api.Tag("UnitTests")
@@ -24,6 +28,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class FlywayFactoryTest {
 
   @Mock private DataSource source;
+
+  @BeforeEach
+  public void mockConnection() throws SQLException  {
+    Mockito.when(source.getConnection()).thenThrow(SQLException.class);
+  }
 
   @Test
   public void testBuild_overrideConnectRetries() {
@@ -70,46 +79,6 @@ public class FlywayFactoryTest {
     final boolean override = true;
     final FlywayFactory factory = new FlywayFactory();
     factory.setMixed(override);
-
-    final Flyway flyway = factory.build(source);
-    assertThat(flyway).isNotNull();
-  }
-
-  @Test
-  public void testBuild_overrideIgnoreMissingMigrations() {
-    final boolean override = true;
-    final FlywayFactory factory = new FlywayFactory();
-    factory.setIgnoreMissingMigrations(override);
-
-    final Flyway flyway = factory.build(source);
-    assertThat(flyway).isNotNull();
-  }
-
-  @Test
-  public void testBuild_overrideIgnoreIgnoredMigrations() {
-    final boolean override = true;
-    final FlywayFactory factory = new FlywayFactory();
-    factory.setIgnoreIgnoredMigrations(override);
-
-    final Flyway flyway = factory.build(source);
-    assertThat(flyway).isNotNull();
-  }
-
-  @Test
-  public void testBuild_overrideIgnorePendingMigrations() {
-    final boolean override = true;
-    final FlywayFactory factory = new FlywayFactory();
-    factory.setIgnorePendingMigrations(override);
-
-    final Flyway flyway = factory.build(source);
-    assertThat(flyway).isNotNull();
-  }
-
-  @Test
-  public void testBuild_overrideIgnoreFutureMigrations() {
-    final boolean override = true;
-    final FlywayFactory factory = new FlywayFactory();
-    factory.setIgnoreFutureMigrations(override);
 
     final Flyway flyway = factory.build(source);
     assertThat(flyway).isNotNull();
