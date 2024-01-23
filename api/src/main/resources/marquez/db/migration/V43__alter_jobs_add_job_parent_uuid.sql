@@ -2,13 +2,13 @@ ALTER TABLE jobs ADD COLUMN IF NOT EXISTS parent_job_uuid uuid CONSTRAINT jobs_p
 ALTER TABLE runs ADD COLUMN IF NOT EXISTS parent_run_uuid uuid CONSTRAINT runs_parent_fk_runs REFERENCES runs (uuid);
 
 DROP INDEX IF EXISTS jobs_name_index;
-ALTER TABLE jobs DROP CONSTRAINT jobs_namespace_uuid_name_key;
+DROP INDEX jobs_namespace_uuid_name_key CASCADE;
 DROP INDEX IF EXISTS jobs_namespace_uuid_name_key;
 
 CREATE UNIQUE INDEX IF NOT EXISTS jobs_name_parent ON jobs (name, namespace_name, parent_job_uuid);
 CREATE UNIQUE INDEX IF NOT EXISTS jobs_namespace_uuid_name_parent ON jobs (name, namespace_uuid, parent_job_uuid);
 CREATE UNIQUE INDEX IF NOT EXISTS jobs_namespace_uuid_name_null_parent ON jobs (name, namespace_uuid) WHERE parent_job_uuid IS NULL;
-ALTER TABLE jobs ADD CONSTRAINT unique_jobs_namespace_uuid_name_parent UNIQUE USING INDEX jobs_namespace_uuid_name_parent;
+ALTER TABLE jobs ADD CONSTRAINT unique_jobs_namespace_uuid_name_parent UNIQUE (name, namespace_uuid, parent_job_uuid);
 
 CREATE OR REPLACE VIEW jobs_view
 AS

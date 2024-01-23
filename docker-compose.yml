@@ -15,26 +15,21 @@ services:
       - "db:postgres"
     depends_on:
       - db
-    entrypoint: ["/opt/marquez/wait-for-it.sh", "db:5432", "--", "./entrypoint.sh"]
+    entrypoint: ["/opt/marquez/wait-for-it.sh", "postgres:26257", "--", "./entrypoint.sh"]
 
   db:
-    image: postgres:14
+    image: registry.gitlab.com/nexiot-ag/devops/persistence/granit/base-image:5.0.0
     container_name: marquez-db
     ports:
-      - "5432:5432"
+      - "26257:26257"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - MARQUEZ_DB=marquez
-      - MARQUEZ_USER=marquez
-      - MARQUEZ_PASSWORD=marquez
-    volumes:
-      - db-conf:/etc/postgresql
-      - db-init:/docker-entrypoint-initdb.d
-      - db-backup:/var/lib/postgresql/data
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+      - POSTGRES_PASSWORD=postgres
+      - MARQUEZ_DB=granit_local
+      - MARQUEZ_USER=postgres
+      - MARQUEZ_PASSWORD=postgres
     # Enables SQL statement logging (see: https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOG-STATEMENT)
-    # command: ["postgres", "-c", "log_statement=all"]
+    command: ["--accept-sql-without-tls"]
 
 volumes:
   data:

@@ -7,7 +7,5 @@ CREATE TABLE lineage_events (
   run_id text,
   job_name text,
   job_namespace text,
-  producer text,
-  CONSTRAINT lineage_event_pk
-   PRIMARY KEY(event_time, event)
+  producer text
 );

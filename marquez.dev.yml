@@ -9,11 +9,11 @@ server:
 
 db:
   driverClass: org.postgresql.Driver
-  url: jdbc:postgresql://postgres:5432/marquez
-  user: marquez
-  password: marquez
+  url: jdbc:postgresql://postgres:26257/granit_local?currentSchema=marquez
+  user: postgres
+  password: postgres
 
-migrateOnStartup: true
+migrateOnStartup: false
 
 graphql:
   enabled: true

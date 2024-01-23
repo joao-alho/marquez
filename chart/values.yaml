@@ -27,10 +27,10 @@ marquez:
   ##
   db:
     host: localhost
-    port: 5432
-    name: playground?currentSchema=marquez
-    user: buendia
-    password: macondo
+    port: 26257
+    name: granit_local?currentSchema=marquez
+    user: postgres
+    password: postgres
   ## Indicates if Flyway database migration will execute upon deployment
   ##
   migrateOnStartup: true
@@ -99,7 +99,7 @@ web:
 postgresql:
   ## @param postgresql.enabled Deploy PostgreSQL container(s)
   ##
-  enabled: true
+  enabled: false
   ## Bitnami PostgreSQL image version
   ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
   ## @param image.registry PostgreSQL image registry
